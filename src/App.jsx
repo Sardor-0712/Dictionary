@@ -1,16 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css'
-import News from "./components/News";
-import NewsOne from "./components/NewsOne";
+import Dictionary_app from "./components/Dictionary_app";
+
 
 function App() {
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/news" element={<News />} />
-        <Route path="/news/:id" element={<NewsOne />} />
-
+        <Route path="*" element={<Dictionary_app />} />
       </Routes>
     </BrowserRouter>
   )

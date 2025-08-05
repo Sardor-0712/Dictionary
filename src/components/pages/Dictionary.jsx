@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../config';
+import { VITE_API_URL } from '../config';
 import { toast } from 'react-toastify';
 
 
@@ -21,7 +21,7 @@ const Dictionary = () => {
   // Fetch dictionaries
   const fetchDictionaries = async (pageNum = 1, searchVal = search, filterVal = filter) => {
     setLoading(true);
-    let url = `${API_URL}/dictionary/get-all?page=${pageNum}&limit=${PAGE_SIZE}`;
+    let url = `${VITE_API_URL}/dictionary/get-all?page=${pageNum}&limit=${PAGE_SIZE}`;
     if (filterVal !== "all") url += `&type=${filterVal}`;
     if (searchVal) url += `&search=${encodeURIComponent(searchVal)}`;
     try {
@@ -41,7 +41,7 @@ const Dictionary = () => {
   const addDictionary = async (formData) => {
     try {
       const { data } = await axios.post(
-        API_URL + "/dictionary/add",
+        VITE_API_URL + "/dictionary/add",
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
@@ -57,7 +57,7 @@ const Dictionary = () => {
   // Edit
   const updateDictionary = async (id, formData) => {
     try {
-      const { data } = await axios.put(API_URL + "/dictionary/update/" + id, formData);
+      const { data } = await axios.put(VITE_API_URL + "/dictionary/update/" + id, formData);
       if (data.success) {
         toast.success("Dictionary updated successfully");
         fetchDictionaries(page);
@@ -73,7 +73,7 @@ const Dictionary = () => {
   const deleteDictionary = async (id) => {
     if (!window.confirm("Are you sure you want to delete this dictionary?")) return;
     try {
-      const { data } = await axios.delete(API_URL + "/dictionary/delete/" + id);
+      const { data } = await axios.delete(`${VITE_API_URL}/dictionary/delete/${id}`);
       if (data.success) {
         toast.success("Dictionary deleted successfully");
         fetchDictionaries(page);

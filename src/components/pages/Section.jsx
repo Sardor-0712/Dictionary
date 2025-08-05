@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../config';
+import { VITE_API_URL } from '../config';
 import { toast } from 'react-toastify';
 
 const PAGE_SIZE = 10;
@@ -21,7 +21,7 @@ function Section() {
   // Fetch dictionaries
   const fetchDictionaries = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/dictionary/get-all`);
+      const { data } = await axios.get(`${VITE_API_URL}/dictionary/get-all`);
       if (data.success) setDictionaries(data.data);
     } catch (e) { }
   };
@@ -29,8 +29,8 @@ function Section() {
   // Fetch sections
   const fetchSections = async (dictionaryId = null) => {
     let url = dictionaryId && dictionaryId !== 'all'
-      ? `${API_URL}/section/by-dictionary/${dictionaryId}`
-      : `${API_URL}/section/get-all`;
+      ? `${VITE_API_URL}/section/by-dictionary/${dictionaryId}`
+      : `${VITE_API_URL}/section/get-all`;
     try {
       const { data } = await axios.get(url);
       if (data.success) setSections(data.data);
@@ -107,8 +107,8 @@ function Section() {
       formData.append('image', form.image);
     }
     const url = editing
-      ? `${API_URL}/section/update/${editing}`
-      : `${API_URL}/section/add`;
+      ? `${VITE_API_URL}/section/update/${editing}`
+      : `${VITE_API_URL}/section/add`;
     const method = editing ? 'put' : 'post';
     try {
       const { data } = await axios[method](url, formData);
@@ -133,7 +133,7 @@ function Section() {
   const handleDelete = async id => {
     if (!window.confirm("Haqiqatan ham ushbu bo'limni o'chirmoqchimisiz?")) return;
     try {
-      const { data } = await axios.delete(`${API_URL}/section/delete/${id}`);
+      const { data } = await axios.delete(`${VITE_API_URL}/section/delete/${id}`);
       setAlert({ show: true, msg: data.msg || "Bo'lim muvaffaqiyatli o'chirildi!", success: data.success });
       fetchSections(dictionaryFilter);
     } catch (err) {

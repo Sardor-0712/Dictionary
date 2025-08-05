@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../config';
+import { VITE_API_URL } from '../config';
 import { toast } from 'react-toastify';
 
 const PAGE_SIZE = 10;
@@ -27,7 +27,7 @@ function Words() {
   // Fetch dictionaries
   const fetchDictionaries = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/dictionary/get-all`);
+      const { data } = await axios.get(`${VITE_API_URL}/dictionary/get-all`);
       if (data.success) setDictionaries(data.data);
     } catch (e) {
       toast.error(e.response.data.message || "Lug'atlar olishda xatolik");
@@ -37,8 +37,8 @@ function Words() {
   // Fetch sections
   const fetchSections = async (dictionaryId = '', forSelect = false) => {
     let url = dictionaryId
-      ? `${API_URL}/section/by-dictionary/${dictionaryId}`
-      : `${API_URL}/section/get-all`;
+      ? `${VITE_API_URL}/section/by-dictionary/${dictionaryId}`
+      : `${VITE_API_URL}/section/get-all`;
     try {
       const { data } = await axios.get(url);
       if (data.success) setSections(data.data);
@@ -57,7 +57,7 @@ function Words() {
       return;
     }
 
-    const url = `${API_URL}/category/by-section/${sectionId}`;
+    const url = `${VITE_API_URL}/category/by-section/${sectionId}`;
 
     try {
       const { data } = await axios.get(url);
@@ -73,7 +73,7 @@ function Words() {
   // Fetch words
   const fetchWords = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/words/get-all`);
+      const { data } = await axios.get(`${VITE_API_URL}/words/get-all`);
       if (data.success) setWords(data.data);
     } catch (e) {
       console.error("So'zlar olishda xatolik:", e?.response?.data || e.message);
@@ -164,8 +164,8 @@ function Words() {
 
     if (form.image) formData.append('image', form.image);
     const url = editing
-      ? `${API_URL}/words/update/${editing}`
-      : `${API_URL}/words/add`;
+      ? `${VITE_API_URL}/words/update/${editing}`
+      : `${VITE_API_URL}/words/add`;
     const method = editing ? 'put' : 'post';
     try {
       const { data } = await axios[method](url, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
@@ -187,7 +187,7 @@ function Words() {
   const handleDelete = async id => {
     if (!window.confirm('Are you sure you want to delete?')) return;
     try {
-      await axios.delete(`${API_URL}/words/delete/${id}`);
+      await axios.delete(`${VITE_API_URL}/words/delete/${id}`);
       setAlert({ show: true, msg: 'Deleted', success: true });
       fetchWords();
     } catch (err) {

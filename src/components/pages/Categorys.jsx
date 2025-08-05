@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../config';
+import { VITE_API_URL } from '../config';
 import { toast } from 'react-toastify';
 
 const PAGE_SIZE = 10;
@@ -25,7 +25,7 @@ function Categorys() {
   // Fetch dictionaries
   const fetchDictionaries = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/dictionary/get-all`);
+      const { data } = await axios.get(`${VITE_API_URL}/dictionary/get-all`);
       if (data.success) setDictionaries(data.data);
     } catch (e) { }
   };
@@ -33,8 +33,8 @@ function Categorys() {
   // Fetch sections
   const fetchSections = async (dictionaryId = '', forSelect = false) => {
     let url = dictionaryId
-      ? `${API_URL}/section/by-dictionary/${dictionaryId}`
-      : `${API_URL}/section/get-all`;
+      ? `${VITE_API_URL}/section/by-dictionary/${dictionaryId}`
+      : `${VITE_API_URL}/section/get-all`;
     try {
       const { data } = await axios.get(url);
       if (data.success) setSections(data.data);
@@ -44,7 +44,7 @@ function Categorys() {
   // Fetch categories
   const fetchCategories = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/category/get-all`);
+      const { data } = await axios.get(`${VITE_API_URL}/category/get-all`);
       if (data.success) setCategories(data.data);
     } catch (e) { }
   };
@@ -105,8 +105,8 @@ function Categorys() {
       related_sec: form.section
     };
     const url = editing
-      ? `${API_URL}/category/update/${editing}`
-      : `${API_URL}/category/add`;
+      ? `${VITE_API_URL}/category/update/${editing}`
+      : `${VITE_API_URL}/category/add`;
     const method = editing ? 'put' : 'post';
     try {
       const { data } = await axios[method](url, body);
@@ -127,7 +127,7 @@ function Categorys() {
   const handleDelete = async id => {
     if (!window.confirm('Delete this category?')) return;
     try {
-      const { data } = await axios.delete(`${API_URL}/category/delete/${id}`);
+      const { data } = await axios.delete(`${VITE_API_URL}/category/delete/${id}`);
       setAlert({ show: true, msg: data.message, success: data.success });
       fetchCategories();
     } catch (err) {
